@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb://localhost:27017/mydb';
 /* GET users listing. */
 router.post('/create', function(req, res, next) {
    var payloadData = req.body;
-   console.log(url, 'urllllllllllllll');
-    MongoClient.connect(url/'mydb', function (err, client) {
+    MongoClient.connect(url, function (err, client) {
       if (err) throw err
       var db = client.db('mydb')
       db.collection("orders").insertMany(payloadData, function(err, result) {
@@ -17,7 +17,7 @@ router.post('/create', function(req, res, next) {
 });
 
 router.put('/update/:id', function(req, res, next) {
-  MongoClient.connect('mongodb://localhost:27017/mydb', function (err, client) {
+  MongoClient.connect(url, function (err, client) {
     if (err) throw err
     var db = client.db('mydb')
     var myquery = { order_id: req.params.id };
@@ -31,7 +31,7 @@ router.put('/update/:id', function(req, res, next) {
 });
 
 router.get('/search/:id', function(req, res, next) {
-  MongoClient.connect('mongodb://localhost:27017/mydb', function (err, client) {
+  MongoClient.connect(url, function (err, client) {
     if (err) throw err
     var db = client.db('mydb')
     db.collection("orders").findOne({order_id: req.params.id}, function(err, result) {
@@ -43,7 +43,7 @@ router.get('/search/:id', function(req, res, next) {
 });
 
 router.post('/list', function(req, res, next) {
-  MongoClient.connect('mongodb://localhost:27017/mydb', function (err, client) {
+  MongoClient.connect(url, function (err, client) {
     if (err) throw err
     var db = client.db('mydb')
     var delivery_date = req.body.delivery_date;
@@ -57,7 +57,7 @@ router.post('/list', function(req, res, next) {
 });
 
 router.delete('/delete/:id', function(req, res, next) {
-  MongoClient.connect('mongodb://localhost:27017/mydb', function (err, client) {
+  MongoClient.connect(url, function (err, client) {
     if (err) throw err
     var db = client.db('mydb')
     db.collection("orders").deleteOne({order_id: req.params.id}, function(err, result) {
